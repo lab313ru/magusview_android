@@ -1,0 +1,698 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Toupnam API 手册</title>
+</head>
+<body>
+    <h1 align="center">Toupnam API 手册</h1>
+    <p>&nbsp;</p>
+    <hr/><h1><font color="#0000FF">1. 版本和平台</font></h1><hr/>
+    <ul><li>版本:5.33015.20261024</li></ul>
+    <ul><li>平台<ul>
+        <li>Win32:<ul>
+            <li>x64: Win7及以上版本</li>
+            <li>x86: XP SP3及以上版本; CPU至少需要支持SSE2指令集</li>
+        </ul></li>
+        <li>macOS:<ul>
+            <li>x64; macOS 10.10及以上版本</li>
+        </ul></li>
+        <li>Linux: 内核2.6.27及以上, GLIBC 2.17及以上<ul>
+            <li>x64</li>
+            <li>x86: CPU至少需要支持SSE3指令集</li>
+            <li>arm64: 由aarch64-linux-gnu(版本5.4.0)编译</li>
+            <li>armhf: 由arm-linux-gnueabihf(版本5.4.0)编译</li>
+            <li>armel: 由arm-linux-gnueabi(版本5.4.0)编译</li>
+        </ul></li>
+    </ul></li></ul>
+    <hr/><h1><font color="#0000FF">2. 函数</font></h1><hr/>
+    <ul><li><h2><a id="callback"><font color="#0000FF">回调函数: PTOUPNAM_EVENT_CALLBACK, PTOUPNAM_PARA_CALLBACK,  PTOUPNAM_DATA_CALLBACK, PTOUPNAM_CAPTURE_CALLBACK</font></a></h2>
+        <div align="center" id="TOUPNAM_EVENT">
+            <table width="100%" border="1" cellpadding="0" cellspacing="0" bgcolor="#B0D0B0">
+            <tr>
+                <td width="25%">事件</td>
+                <td width="60%">描述</td>
+                <td width="4%">值</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_ENUM</td>
+                <td>相机数量发生变化</td>
+                <td>0x01</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_WIFI</td>
+                <td>WiFi发生变化</td>
+                <td>0x02</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_PARA</td>
+                <td>参数发生变化, 详见<a href="#TOUPNAM_PARA">TOUPNAM_PARA_xxx</a>详细参数说明</td>
+                <td>0x03</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_IMAGE</td>
+                <td>视频图像数据到达(视频)</td>
+                <td>0x04</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_THUMBNAIL</td>
+                <td>获取缩略图</td>
+                <td>0x08</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_DIRCHANG</td>
+                <td>目录更改事件</td>
+                <td>0x09</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_RECORDSTART</td>
+                <td>记录开始</td>
+                <td>0x0a</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_RECORDSTOP</td>
+                <td>记录停止</td>
+                <td>0x0b</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_ERROR</td>
+                <td>发生错误</td>
+                <td>0x80</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_EOF</td>
+                <td>录入文件结束</td>
+                <td>0x81</td>
+            </tr></table>
+        </div><br/>
+        <div align="center" id="TOUPNAM_PARA">
+            <table width="100%" border="1" cellpadding="0" cellspacing="0" bgcolor="#B0D0B0">
+            <tr>
+                <td width="25%">参数</td>
+                <td width="60%">描述</td>
+                <td width="4%">值</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_UNKNOWN</td>
+                <td>未知</td>
+                <td>0x00</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EXPOTIME</td>
+                <td>曝光时间</td>
+                <td>0x01</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AGAIN</td>
+                <td>模拟增益, 百分比, 如200表示增益200%</td>
+                <td>0x02</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AEXPOTARGET</td>
+                <td>自动曝光的目标</td>
+                <td>0x03</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_TEMP</td>
+                <td>色温</td>
+                <td>0x04</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_TINT</td>
+                <td>Tint</td>
+                <td>0x05</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_CONTRAST</td>
+                <td>对比度</td>
+                <td>0x06</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_HUE</td>
+                <td>色度</td>
+                <td>0x07</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_SATURATION</td>
+                <td>饱和度</td>
+                <td>0x08</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_BRIGHTNESS</td>
+                <td>亮度</td>
+                <td>0x09</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_GAMMA</td>
+                <td>Gamma</td>
+                <td>0x0a</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AEXPO</td>
+                <td>自动曝光</td>
+                <td>0x0b</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AWB</td>
+                <td>自动白平衡 XCAM1080P:once XCAM4K:(0:manual;1:global auto;2:roi)</td>
+                <td>0x0c</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_BINSKIP</td>
+                <td>bin/skip模式</td>
+                <td>0x0d</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_HZ</td>
+                <td>光源的电力供应频率0表示60Hz交流, 1表示50Hz交流, 2表示直流</td>
+                <td>0x0e</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_BPS</td>
+                <td>带宽kbps (bits per second)</td>
+                <td>0x0f</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_KEYFRAME</td>
+                <td>关键帧间隔</td>
+                <td>0x10</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_LOWLIGHTCOMPENSATION</td>
+                <td>低光补偿</td>
+                <td>0x11</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_SHARPNESS</td>
+                <td>锐化</td>
+                <td>0x12</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBREDGAIN</td>
+                <td>白平衡红增益</td>
+                <td>0x13</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBGREENGAIN</td>
+                <td>白平衡绿增益</td>
+                <td>0x14</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBBLUEGAIN</td>
+                <td>白平衡蓝增益</td>
+                <td>0x15</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_DENOISE</td>
+                <td>降噪</td>
+                <td>0x16</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_APSTA</td>
+                <td>ap或sta (无线网络工作模式)</td>
+                <td>0x17</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_CODEC</td>
+                <td>编解码器, H264, H265等</td>
+                <td>0x18</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFPOSITION</td>
+                <td>自动对焦传感器板位置(AFDM, EFL均适用)</td>
+                <td>0x19</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFMODE</td>
+                <td>自动对焦模式, 0:手动对焦; 1:自动对焦; 2:单次对焦; 3:共轭校准</td>
+                <td>0x1a</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFZONE</td>
+                <td>自动对焦区域整个分辨率被划分为w*h区域:w=imax>>16, h=imax&0xffff, 所以自动对焦的行 row=value / w, 自动对焦的列column=value % w (value位区域的序号)</td>
+                <td>0x1b</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFFEEDBACK</td>
+                <td>自动对焦信息反馈<br/>
+                    AFDM:<br/>
+                    0: 未知<br/>
+                    1: 已对焦<br/>
+                    2: 对焦中<br/>
+                    3: 失焦<br/>
+                    4: 上升（工作台上移）<br/>
+                    5: 下降（工作台下移）<br/>
+                    EFL:<br/>
+                    0: 不可用<br/>
+                    1: 对焦完成，已找到焦点位置<br/>
+                    2: 对焦结束，失焦<br/>
+                    3: 对焦结束，物体过近<br/>
+                    4: 对焦结束，物体过远<br/>
+                    5: 对焦结束, ROI 变化<br/>
+                    6: 对焦结束，场景变化<br/>
+                    7: 对焦结束，对焦模式变化（通常由用户调节器决定）<br/>
+                    8: 对焦未完成；对焦开始时会被设置为未完成
+                <td>0x1c</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFPOSITION_ABSOLUTE</td>
+                <td>自动对焦传感器板的绝对位置</td>
+                <td>0x1d</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_STATUS</td>
+                <td>状态, 详见<a href="#TOUPNAM_STATE">TOUPNAM_STATE_XXXX</a></td>
+                <td>0x1e</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EVENT</td>
+                <td>事件, 详见<a href="#TOUPNAM_EVENT">TOUPNAM_EVENT_XXXX</a></td>
+                <td>0x1f</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBROILEFT</td>
+                <td>白平衡下roi区域的左边界</td>
+                <td>0x20</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBROITOP</td>
+                <td>白平衡下roi区域的上边界</td>
+                <td>0x21</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBROIWIDTH</td>
+                <td>白平衡下roi区域的宽度</td>
+                <td>0x22</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBROIHEIGHT</td>
+                <td>白平衡下roi区域的高度</td>
+                <td>0x23</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_VFLIP</td>
+                <td>垂直翻转</td>
+                <td>0x24</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_HFLIP</td>
+                <td>水平翻转</td>
+                <td>0x25</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_CHROME</td>
+                <td>单色模式</td>
+                <td>0x26</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_SIZE</td>
+                <td>视频的宽和高</td>
+                <td>0x27</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_LIGHTADJUSTMENT</td>
+                <td>光源亮度调节</td>
+                <td>0x28</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_ZOOM</td>
+                <td>变焦</td>
+                <td>0x29</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_MODE</td>
+                <td>自动对焦模式, 0:镜头校准模式; 1:手动对焦; 2:单次对焦; 3:自动对焦;(EF表示镜头自动对焦, 下列即表示EF相关的参数)</td>
+                <td>0x2a</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_FL</td>
+                <td>焦距</td>
+                <td>0x2b</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_APERTURE</td>
+                <td>F数, 24~16bit:Cur, 15~8bit:Min, 7~0bit:Max</td>
+                <td>0x2c</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_FOCUS_MAX</td>
+                <td>焦距最大值</td>
+                <td>0x2d</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_LENS_ID</td>
+                <td>镜头ID</td>
+                <td>0x2e</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_AFMF</td>
+                <td>镜头对焦模式, 0;AF; 1:MF;</td>
+                <td>0x2f</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_WD_ENABLE</td>
+                <td>开启工作距离功能</td>
+                <td>0x30</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_WD_NEAR</td>
+                <td>近距离工作点</td>
+                <td>0x31</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_WD_FAR</td>
+                <td>远距离工作点</td>
+                <td>0x32</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_CHROME_LOCAL</td>
+                <td>本地的单色模式</td>
+                <td>0x80</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_VFLIP_LOCAL</td>
+                <td>本地的垂直翻转</td>
+                <td>0x81</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_HFLIP_LOCAL</td>
+                <td>本地的水平翻转</td>
+                <td>0x82</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_NEGATIVE_LOCAL</td>
+                <td>本地的负片</td>
+                <td>0x83</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_FORMAT_LOCAL</td>
+                <td>图像输出格式, 必须在start之前设置</td>
+                <td>0x84</td>
+            </tr></table>
+        </div>
+        <p>pDataCallback和pParaCallback是由toupnam.dll的内部线程回调的, 因此请注意多线程问题. 请尽量保持回调函数代码的简洁, 并且快速返回.<br/>
+            当帧到达时, pDataCallback被回调. (NULL==pData)表示有错误.<br/>
+            当TOUPNAM_PARA_xxx值更改时, pParaCallback将被回调.<br/>
+            pCallbackCtx是Start传递的回调上下文.<br/>
+        </p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Init</font></h2>
+        <p><strong>返回值：</strong>无</p>
+        <p><strong>参数：</strong>pCallback回调函数, pCallbackCtx传到回调函数的指针</p>
+        <p><strong>说明：</strong>当toupnam.dll/libtoupnam.so发现新相机时, 将调用pCallback, 如果应用程序对此不感兴趣, pCallback可以为NULL. <strong>Toupnam_Init应用程序启动时只调用一次</strong></p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Fini</font></h2>
+        <p><strong>返回值：</strong>无</p>
+        <p><strong>参数：</strong>无</p>
+        <p><strong>说明：</strong>应用程序退出时只调用一次</p>
+    </li></ul>
+    <ul><li><h2><a id="Toupnam_Enum"><font color="#0000FF">Toupnam_Enum</font></a></h2>
+        <p><strong>返回值：</strong>非负整数, 枚举到的相机数目</p>
+        <p><strong>参数：</strong>ToupnamDevice数组缓冲区</p>
+        <p><strong>说明：</strong>函数返回时, ToupnamDevice缓冲区包含有枚举到的每个相机实例的信息. <strong>如果不关心多个相机同时联入电脑的情况的话, 调用本函数枚举相机实例是可选的.</strong></p>
+        <div align="center">
+            <table width="100%" border="1" cellpadding="0" cellspacing="0" bgcolor="#B0D0B0">
+                <tr>
+                    <td width="8%">name</td>
+                    <td colspan="2">型号名称</td>
+                </tr>
+                <tr>
+                    <td width="8%" rowspan="18" id="TOUPNAM_FLAG">flag</td>
+                    <td colspan="2">位标记 (Bitwise flag)</td>
+                </tr>
+                <tr>
+                    <td width="29%">TOUPNAM_FLAG_WIFI_AP</td>
+                    <td width="63%">终端</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_WIFI_STA</td>
+                    <td>客户端</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_ETHERNET</td>
+                    <td>以太网</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_CAPTURE</td>
+                    <td>支持从相机捕获图像</td> 	
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_AWBCHECKMODE</td>
+                    <td>支持自动白平衡</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_UVC</td>
+                    <td>UVC相机</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_WBGAIN</td>
+                    <td>支持白平衡下的增益模式或者色温模式</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_MULTICAST</td>
+                    <td>RTSP/RTP</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_AF</td>
+                    <td>支持自动对焦</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_SD</td>
+                    <td>支持sd卡</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_WBROI</td>
+                    <td>支持白平衡的roi</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_STA_SUPPORT</td>
+                    <td>相机具有sta模式, 应用程序应具有sta账号和密码功能</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_RTP_OVER_RTSP</td>
+                    <td>rtp over rtsp</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_HZ_AUTOEXPO</td>
+                    <td>在50/60HZ光源的电力供应频率约束下支持自动曝光</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_AFDM</td>
+                    <td>自动对焦的一种方式</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_EFL</td>
+                    <td>支持镜头自动对焦</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_CAPTURERAW</td>
+                    <td>获取raw图</td>
+                </tr>
+                <tr>
+                    <td width="8%" rowspan="4" id="TOUPNAM_STATE">state</td>
+                    <td colspan="2">状态</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_STATE_INITING</td>
+                    <td>初始化</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_STATE_NORMAL</td>
+                    <td>常态</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_STATE_UNREACHABLE</td>
+                    <td>网络无法连接</td>
+                </tr>
+                <tr>
+                    <td width="8%">url</td>
+                    <td colspan="2">网络地址, 例如rtsp://xxxx/yyyy</td>
+                </tr>
+                <tr>
+                    <td width="8%">addr</td>
+                    <td colspan="2">ip地址</td>
+                </tr>
+                <tr>
+                    <td width="8%">version</td>
+                    <td colspan="2">版本号</td>
+                </tr>
+                <tr>
+                    <td width="8%">sn</td>
+                    <td colspan="2">序列号</td>
+                </tr>
+                <tr>
+                    <td width="8%">id</td>
+                    <td colspan="2">相机ID</td>
+                </tr></table>
+        </div>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Open<br/>Toupnam_Open_ByIndex</font></h2>
+        <p><strong>返回值：</strong>相机句柄. 失败时返回NULL</p>
+        <p><strong>参数：</strong><a href="#Toupnam_Enum">camId</a>: 相机ID, 由Toupnam_Enum枚举得到</p>
+        <p><strong>说明：</strong>打开相机实例.</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Close</font></h2>
+        <p><strong>返回值：</strong>无</p>
+        <p><strong>参数：</strong>HToupnam h: 相机句柄</p>
+        <p><strong>说明：</strong>关闭相机实例. 句柄关闭之后, 请不要再使用</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF"><a id="pullimageptr">Toupnam_PullImagePtr</a></font></h2>
+        <p><strong>返回值：</strong><a>HRESULT</a> 类型，表示操作成功或失败。</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+        <p>HToupnam h：相机句柄。</p>
+        <p><a>ToupnamImagePtr</a>* ptrImage：帧缓冲区。</p></blockquote>
+        <p><strong>说明：</strong>使用 <a>ImagePtr</a> 模式获取帧缓冲区。</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF"><a id="pushimageptr">Toupnam_PushImagePtr</a></font></h2>
+            <p><strong>返回值：</strong><a>HRESULT</a> 类型，表示操作成功或失败。</p>
+            <p><strong>参数：</strong></p>
+            <blockquote>
+            <p>HToupnam h：相机句柄。</p>
+            <p>unsigned ptrId：帧缓冲区 ID。</p></blockquote>
+            <p><strong>说明：</strong>帧缓冲区使用完成后，必须将其归还给 SDK 以便重复利用。请注意以下事项：</p>
+                <blockquote>
+                <p>(a) 只有在帧缓冲区不再被使用时才能将其归还给 SDK。归还后继续访问该缓冲区是不安全的，因为 SDK 可能已经重新使用该缓冲区，并用新的图像数据覆盖了原有内存。</p>
+                <p>(b) 如果帧缓冲区未被归还，可用缓冲区池中的缓冲区数量将逐渐减少。</p>
+                <p>(c) 每个通过 Pull 获取的帧缓冲区（以其 ID 标识）只能归还一次，不允许重复归还。</p>
+                <p>(d) 归还的顺序和Pull得到的顺序<strong>不需要</strong>一致, 也就是说<strong>可以乱序归还</strong>。</p>
+                <p>(e) 对于尚未归还的帧缓冲区，在调用 Toupnam_Stop 后仍然有效；而在调用 Toupnam_Close 后，所有尚未归还的帧缓冲区会立即失效。</p>
+                </blockquote>
+        </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_PullImage</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败, 不存在图像可供获取时返回E_PENDING</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>HToupnam h: 相机句柄</p>
+            <p>pImageData: 数据缓冲区. 用户应用程序必须确保改缓冲区足够大以容纳图像数据</p>
+            <p>bits: 图像颜色位数, 支持24, 32, 48, 8, 16和64, 分别代表RGB24, RGB32, RGB48, 8位灰度, 16位灰度, RGB64图像</p>
+            <p>pnWidth, pnHeight: 输出参数, 图像的宽度高度</p>
+        </blockquote>
+        <p><strong>说明：</strong>无</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_StartPullModeWithCallback</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>HToupnam h: 相机句柄</p>
+            <p>void* pCallbackContext: 用户程序指定的回调函数</p>
+        </blockquote>
+        <p><strong>说明：</strong>无</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Stop</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong>HToupnam h: 相机句柄</p>
+        <p><strong>说明：</strong>停止相机实例</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Pause</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong>HToupnam h: 相机句柄</p>
+        <p><strong>说明：</strong>暂停或者继续视频流</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Capture<br/>Toupnam_Capture_ById</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>HToupnam h: 相机句柄</p>
+            <p>camId: 相机id</p>
+            <p>pstrFileName: 文件名</p>
+            <p>pCaptureCallback: 回调函数</p>
+            <p>pCallbackCtx: 传递的回调上下文</p>
+        </blockquote>
+        <p><strong>说明：</strong>捕获图像，将其与从视频中提取的图像进行比较</p>
+        <blockquote>
+            <p>pstrFileName: NULL->捕获图像，然后通过回调返回</p>
+            <p>“raw”->捕获原始图像，然后通过回调返回</p>
+            <p>“abc.jpg”->捕获图像, 然后将其保存在相机sd卡中, 文件名为“abc.jpg”</p>
+            <p>“abc.raw”->捕获原始图像, 然后将其保存在相机sd卡中, 文件名为“abc.raw”</p>
+            <p>“thumbnail”->捕获缩略图图像，然后通过回调返回</p>
+            <p>“*”->捕获图像, 然后用自动生成的文件名将其保存在相机sd卡中</p>
+            <p>“*.raw”->捕获原始图像, 然后用自动生成的文件名将其保存在相机sd卡中</p>
+        </blockquote>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_get_Size_ById</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>camId: 相机id</p>
+            <p>res: 相机分辨率</p>
+            <p>pWidth, pHeight: 传递宽和高的指针</p>
+        </blockquote>
+        <p><strong>说明：</strong>无</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_get_Device</font></h2>
+        <p><strong>返回值：</strong>ToupnamDevice类型表示相机实例的信息</p>
+        <p><strong>参数：</strong>HToupnam h: 相机句柄</p>
+        <p><strong>说明：</strong>获取相机实例的信息</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_get_Size<br/>Toupnam_get_CapSize</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>HToupnam h: 相机句柄</p>
+            <p>pWidth, pHeight: 当前分辨率的宽度高度</p>
+        </blockquote>
+        <p><strong>说明：</strong>得到当前分辨率或录制分辨率</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_get_FourCC</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>HToupnam h: 相机句柄</p>
+            <p>unsigned* pFourCC: Four-Character Codes, 四字符代码</p>
+        </blockquote>
+        <p><strong>说明：</strong>详见 <a href="http://en.wikipedia.org/wiki/FourCC" target="_blank">http://en.wikipedia.org/wiki/FourCC</a>, <a href="http://www.fourcc.org" target="_blank">http://www.fourcc.org</a></p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Record</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>HToupnam h: 相机句柄</p>
+            <p>const char* fullpathname: 录制保存文件的绝对地址</p>
+        </blockquote>
+        <p><strong>说明：</strong>当fullpathname == NULL 表示停止录制，支持的文件格式：*.asf, *.mp4, *.mkv</p>
+    </li></ul>
+    <ul><li><h2><a id="Para"><font color="#0000FF">Toupnam_put_Para<br/>Toupnam_get_Para</font></a></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>HToupnam h: 相机句柄</p>
+            <p>unsigned para: 参数类型, 详见<a href="#TOUPNAM_PARA">TOUPNAM_PARA_xxx</a></p>
+            <p>value: 设置或获取的值</p>
+        </blockquote>
+        <p><strong>说明：</strong>得到当前分辨率或录制分辨率</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_put_Para_ById<br/>Toupnam_put_Para_ById</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>HToupnam h: 相机句柄</p>
+            <p>unsigned para: 参数类型, 详见<a href="#TOUPNAM_PARA">TOUPNAM_PARA_xxx</a></p>
+            <p>value: 设置或获取的值</p>
+        </blockquote>
+        <p><strong>说明：</strong>通过相机id来设置参数, 与<a href="#Para">Toupnam_put_Para, Toupnam_get_Para</a>有所区分</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_put_Wifi</font></h2>
+        <p><strong>返回值：</strong>HRESULT类型表示成功或失败</p>
+        <p><strong>参数：</strong></p>
+        <blockquote>
+            <p>const char* camId: 相机id</p>
+            <p>ToupnamWifi wifi: wifi账号密码</p>
+        </blockquote>
+        <p><strong>说明：</strong>设置WiFi</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_add_Ip<br/>Toupnam_del_Ip</font></h2>
+        <p><strong>返回值：</strong>无</p>
+        <p><strong>参数：</strong>const char** arr: 相机ip地址的列表</p>
+        <p><strong>说明：</strong>用于组播通讯模式, 可以对指定ip地址的相机进行通信, 对广播通讯模式无效</p>
+        <p>如下面的代码片段：<br/></p>
+        <table width="100%" border="0" bgcolor="#B0D0B0"><tr><td><pre>
+char* arr[] = {
+    "1.2.3.4",
+    "1.2.3.5",
+    ...,
+    NULL
+};
+Toupnam_add_Ip(arr);</pre></td></tr></table></li></ul>
+</body>
+</html>

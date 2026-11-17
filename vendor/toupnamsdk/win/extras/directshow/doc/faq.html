@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+<title>FAQ for toupcam directshow sdk</title>
+</head>
+
+<body>
+<h1 align="center">FAQ for toupnam directshow sdk</h1>
+<p>NOTICE: This Q&amp;A below is only for directshow sdk.</p>
+<h2>Q: What's the version of this sdk?</h2>
+<p align="left">A: 5.33015.20261024</p>
+<h2>Q: What's in toupnam directshow sdk?</h2>
+<p align="left">A: For  normal directshow application development, pure directshow programming is sufficient. For advanced directshow application development (such as camera control GUI customization), interface in toupnam_dshow.h are available. Please see the the sample program source code amcap.zip  (provided by Microsoft).</p>
+<h2>Q: Does directshow sdk support  multiple camera instance?</h2>
+<p align="left">A: No. The directshow sdk only support one camera  instance, which mean that toupnam.ax always open the "first" camera enumerated. If you want open multiple instance simultaneously, please use  the native API.</p>
+<h2>Q: Where can I find the learning materials about DirectShow?</h2>
+<p align="left">A: Microsoft technical documentation is the most complete reference of DirectShow. You can access it at <a href="https://docs.microsoft.com/en-us/windows/win32/directshow/directshow" target="_blank">https://docs.microsoft.com/en-us/windows/win32/directshow/directshow</a></p>
+<h2>Q: Which interfaces does toupnam support?</h2>
+<table border="1" cellspacing="0" cellpadding="0" width="100%">
+  <tr>
+    <td width="26%">Filter interfaces</td>
+    <td width="73%" valign="top">IBaseFilter<br />
+      ISpecifyPropertyPages<br />
+      IAMFilterMiscFlags<br />
+      IAMVideoProcAmp<br />
+      IVideoProcAmp<br />
+      IToupnam (see toupnam_dshow.h)</td>
+  </tr>
+  <tr>
+    <td width="26%">Output pin interface</td>
+    <td width="73%" valign="top">IPin<br />
+      IQualityControl<br />
+      IAMStreamConfig<br />
+      IKsPropertySet<br />
+      ISpecifyPropertyPages<br />
+      IAMVideoProcAmp<br />
+      IVideoProcAmp<br />
+      IToupnam (see toupnam_dshow.h)</td>
+  </tr>
+  <tr>
+    <td width="26%">Output Pin Media Types</td>
+    <td width="73%" valign="top">MEDIATYPE_Video (always RGB24)<br />
+      MEDIASUBTYPE_NULL<br />
+      FORMAT_VideoInfo</td>
+  </tr>
+</table>
+<h2>Q: Can I use this SDK with .net applications?</h2>
+<p align="left">A: Yes, of course. This SDK is DirectShow based and can be easily integrated into your .net applications. See <a href="http://www.aforgenet.com/framework" target="_blank">http://www.aforgenet.com/framework</a> for more details.</p>
+</body>
+</html>

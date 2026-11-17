@@ -1,0 +1,712 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Toupnam API Manual</title>
+</head>
+<body>
+    <h1 align="center">Toupnam API Manual</h1>
+    <p>&nbsp;</p>
+    <hr/><h1><font color="#0000FF">1. Version &amp; Platform</font></h1>
+    <hr/><ul><li>Version: 5.33015.20261024</li></ul>
+    <ul><li>Platform<ul>
+        <li>Win32:<ul>
+            <li>x64: Win7 or above</li>
+            <li>x86: XP SP3 or above; CPU supports SSE2 instruction set or above</li>
+        </ul></li>
+        <li>macOS:<ul>
+            <li>x64: macOS 10.10 or above</li>
+        </ul></li>
+        <li>Linux: kernel 2.6.27 or above; GLIBC 2.17 or above<ul>
+            <li>x64</li>
+            <li>x86: CPU supports SSE3 instruction set or above</li>
+            <li>arm64: built by toolchain arm-linux-gnueabi (version 5.4.0)</li>
+            <li>armhf: built by toolchain arm-linux-gnueabihf (version 5.4.0)</li>
+            <li>armel: built by toolchain aarch64-linux-gnu (version 5.4.0)</li>
+        </ul></li>
+    </ul></li></ul>
+    <hr/><h1><font color="#0000FF">2. Functions</font></h1><hr/>
+    <ul><li><h2><a id="callback"><font color="#0000FF">Callback: PTOUPNAM_EVENT_CALLBACK, PTOUPNAM_PARA_CALLBACK,  PTOUPNAM_DATA_CALLBACK, PTOUPNAM_CAPTURE_CALLBACK</font></a></h2>
+        <div align="center" id="TOUPNAM_EVENT">
+            <table width="100%" border="1" cellpadding="0" cellspacing="0" bgcolor="#B0D0B0">
+            <tr>
+                <td width="25%">Event</td>
+                <td width="60%">Description</td>
+                <td width="4%">Value</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_ENUM</td>
+                <td>The number of cameras has changed</td>
+                <td>0x01</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_WIFI</td>
+                <td>WiFi has changed</td>
+                <td>0x02</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_PARA</td>
+                <td>Parameters change, see<a href="#TOUPNAM_PARA">TOUPNAM_PARA_xxx</a> detailed parameter description</td>
+                <td>0x03</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_IMAGE</td>
+                <td>Image data arrival (video)</td>
+                <td>0x04</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_THUMBNAIL</td>
+                <td>Get thumbnail</td>
+                <td>0x08</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_DIRCHANG</td>
+                <td>dir change notify</td>
+                <td>0x09</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_RECORDSTART</td>
+                <td>record start</td>
+                <td>0x0a</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_RECORDSTOP</td>
+                <td>record stop</td>
+                <td>0x0b</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_ERROR</td>
+                <td>An error occurred</td>
+                <td>0x80</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_EVENT_EOF</td>
+                <td>end of file</td>
+                <td>0x81</td>
+            </tr></table>
+        </div><br/>
+        <div align="center" id="TOUPNAM_PARA">
+            <table width="100%" border="1" cellpadding="0" cellspacing="0" bgcolor="#B0D0B0">
+            <tr>
+                <td width="25%">Parameter</td>
+                <td width="60%">Description</td>
+                <td width="4%">Value</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_UNKNOWN</td>
+                <td>unknown</td>
+                <td>0x00</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EXPOTIME</td>
+                <td>exposure time</td>
+                <td>0x01</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AGAIN</td>
+                <td>Analog gain, percentage, for example, 200 means 200% gain</td>
+                <td>0x02</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AEXPOTARGET</td>
+                <td>auto exposure target</td>
+                <td>0x03</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_TEMP</td>
+                <td>color temperature</td>
+                <td>0x04</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_TINT</td>
+                <td>Tint</td>
+                <td>0x05</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_CONTRAST</td>
+                <td>contrast</td>
+                <td>0x06</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_HUE</td>
+                <td>hue</td>
+                <td>0x07</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_SATURATION</td>
+                <td>saturation</td>
+                <td>0x08</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_BRIGHTNESS</td>
+                <td>brightness</td>
+                <td>0x09</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_GAMMA</td>
+                <td>Gamma</td>
+                <td>0x0a</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AEXPO</td>
+                <td>auto exposure</td>
+                <td>0x0b</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AWB</td>
+                <td>auto White Balance Gain, XCAM1080P:once XCAM4K:(0:manual;1:global auto;2:roi)</td>
+                <td>0x0c</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_BINSKIP</td>
+                <td>bin/skip mode</td>
+                <td>0x0d</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_HZ</td>
+                <td>power supply: 0 -> 60HZ AC;  1 -> 50Hz AC;   2 -> DC</td>
+                <td>0x0e</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_BPS</td>
+                <td>bits per second, kbps</td>
+                <td>0x0f</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_KEYFRAME</td>
+                <td>key frame interval</td>
+                <td>0x10</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_LOWLIGHTCOMPENSATION</td>
+                <td>low light compensation</td>
+                <td>0x11</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_SHARPNESS</td>
+                <td>sharpness</td>
+                <td>0x12</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBREDGAIN</td>
+                <td>white balance red gain</td>
+                <td>0x13</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBGREENGAIN</td>
+                <td>white balance green gain</td>
+                <td>0x14</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBBLUEGAIN</td>
+                <td>white balance blue gain</td>
+                <td>0x15</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_DENOISE</td>
+                <td>denoise</td>
+                <td>0x16</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_APSTA</td>
+                <td>wireless network operating mode: ap or sta</td>
+                <td>0x17</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_CODEC</td>
+                <td>codec, H264, H265, etc</td>
+                <td>0x18</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFPOSITION</td>
+                <td>auto focus sensor board position(applicable to both AFDM and EFL)</td>
+                <td>0x19</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFMODE</td>
+                <td>auto focus mode (0:manul focus; 1:auto focus; 2:once focus; 3:conjugate calibration)</td>
+                <td>0x1a</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFZONE</td>
+                <td>auto focus zone:<br/>
+                    the whole resolution is divided in w * h zones:<br/>
+                    w = imax >> 16<br/>
+                    h = imax & 0xffff<br/>
+                    then:<br/>
+                    zone row:    value / w<br/>
+                    zone column: value % w</td>
+                <td>0x1b</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFFEEDBACK</td>
+                <td>auto focus information feedback<br/>
+                    AFDM:<br/>
+                    0: unknown<br/>
+                    1: focused<br/>
+                    2: focusing<br/>
+                    3: defocuse (out of focus)<br/>
+                    4: up (workbench move up)<br/>
+                    5: down (workbench move down)<br/>
+                    EFL:<br/>
+                    0: Not available<br/>
+                    1: Focus completed, find the focus position<br/>
+                    2: End of focus, defocus<br/>
+                    3: Focusing ended, object too close<br/>
+                    4: Focusing ended, object too far<br/>
+                    5: Focusing ends, roi changes<br/>
+                    6: Focusing ends, scene changes<br/>
+                    7: The end of focusing and the change in focusing mode is usually determined by the user moderator<br/>
+                    8: The focus is not complete. At the beginning of focusing, it will be set as incomplete</td>
+                <td>0x1c</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_AFPOSITION_ABSOLUTE</td>
+                <td>absolute auto focus sensor board positon</td>
+                <td>0x1d</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_STATUS</td>
+                <td>status, see<a href="#TOUPNAM_STATE">TOUPNAM_STATE_XXXX</a></td>
+                <td>0x1e</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EVENT</td>
+                <td>event, see<a href="#TOUPNAM_EVENT">TOUPNAM_EVENT_XXXX</a></td>
+                <td>0x1f</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBROILEFT</td>
+                <td>white balance roi left</td>
+                <td>0x20</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBROITOP</td>
+                <td>white balance roi top</td>
+                <td>0x21</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBROIWIDTH</td>
+                <td>white balance roi width</td>
+                <td>0x22</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_WBROIHEIGHT</td>
+                <td>white balance roi height</td>
+                <td>0x23</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_VFLIP</td>
+                <td>vertical flip</td>
+                <td>0x24</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_HFLIP</td>
+                <td>horizontal flip</td>
+                <td>0x25</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_CHROME</td>
+                <td>monochromatic mode</td>
+                <td>0x26</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_SIZE</td>
+                <td>video width & height</td>
+                <td>0x27</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_LIGHTADJUSTMENT</td>
+                <td>light source brightness adjustment</td>
+                <td>0x28</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_ZOOM</td>
+                <td>zoom</td>
+                <td>0x29</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_MODE</td>
+                <td>Auto focus mode, 0: lens calibration mode; 1: manual focus; 2: single focus; 3: auto focus; (EF means lens auto focus, the following parameters are EF related)</td>
+                <td>0x2a</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_FL</td>
+                <td>Focal length</td>
+                <td>0x2b</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_APERTURE</td>
+                <td>F#, 24~16bit:Cur, 15~8bit:Min, 7~0bit:Max</td>
+                <td>0x2c</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_FOCUS_MAX</td>
+                <td>Maximum focal length</td>
+                <td>0x2d</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_LENS_ID</td>
+                <td>Lens ID</td>
+                <td>0x2e</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_AFMF</td>
+                <td>Lens focus mode, 0: AF; 1: MF;</td>
+                <td>0x2f</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_WD_ENABLE</td>
+                <td>Enable working distance function</td>
+                <td>0x30</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_WD_NEAR</td>
+                <td>Near working distance point</td>
+                <td>0x31</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_EF_WD_FAR</td>
+                <td>Far working distance point</td>
+                <td>0x32</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_CHROME_LOCAL</td>
+                <td>local monochromatic mode</td>
+                <td>0x80</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_VFLIP_LOCAL</td>
+                <td>local vertical flip</td>
+                <td>0x81</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_HFLIP_LOCAL</td>
+                <td>local horizontal flip</td>
+                <td>0x82</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_NEGATIVE_LOCAL</td>
+                <td>local negative film</td>
+                <td>0x83</td>
+            </tr>
+            <tr>
+                <td>TOUPNAM_PARA_FORMAT_LOCAL</td>
+                <td>output format: 0 => BGR888, 1 => BGRA8888, 2 => RGB888, 3 => RGBA8888, 4 => RAW; default: 0<br/>
+                    must be set before StartXXXX</td>
+                <td>0x84</td>
+            </tr></table>
+        </div>
+        
+        <p>These callback functions are called back from the internal thread in toupnam.dll, so great attention should be paid to multithread issue.<br/>
+            Please ensure that the callback funcion is simple and return quickly.<br/></p>
+        <p>When the frame arrives, pDataCallback is called back (NULL==pData) indicates an error</p>
+        <p>When the value of TOUPNAM_PARA_xxx changes, pParaCallback will be called back</p>
+        <p>pCallbackCtx is the callback context</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Init</font></h2>
+        <p><strong>Return value:</strong>NA</p>
+        <p><strong>Parameters:</strong>pCallback is callback, pCallbackCtx is the callback context</p>
+        <p><strong>Remarks: </strong>when toupnam.dll/libtoupnam.so discovery new camera, pCallback will be called.<br/>
+            pCallback can be NULL if the application does not interest this. <strong>Toupnam_Init call only once when application startup</strong></p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Fini</font></h2>
+        <p><strong>Return value: </strong>NA</p>
+        <p><strong>Parameters: </strong>NA</p>
+        <p><strong>Remarks: </strong>call only once when application exit</p>
+    </li></ul>
+    <ul><li><h2><a id="Toupnam_Enum"><font color="#0000FF">Toupnam_Enum</font></a></h2>
+        <p><strong>Return value: </strong>non-negative integer, enumerated camera number</p>
+        <p><strong>Parameters: </strong></p>
+            <blockquote>
+                <p>ToupnamDevice buffer</p>
+                <p>sz: size of the array</p>
+            </blockquote>
+        <p><strong>Remarks: </strong>call this function to enumerate Toupnam cameras that are currently connected to computer, when sz is too small, return value will be greater than sz, means that the caller must use bigger array<br/>
+            <strong>If we don't care about that multiple cameras connect to the computer simultaneously, it's optional to call this function to enumerate the camera instances.</strong></p>
+        <div align="center">
+            <table width="100%" border="1" cellpadding="0" cellspacing="0" bgcolor="#B0D0B0">
+                <tr>
+                    <td width="8%">name</td>
+                    <td colspan="2">The name of this model</td>
+                </tr>
+                <tr>
+                    <td width="8%" rowspan="18" id="TOUPNAM_FLAG">flag</td>
+                    <td colspan="2">Bitwise flag</td>
+                </tr>
+                <tr>
+                    <td width="29%">TOUPNAM_FLAG_WIFI_AP</td>
+                    <td width="63%">wifi ap</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_WIFI_STA</td>
+                    <td>wifi sta</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_ETHERNET</td>
+                    <td>eth network</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_CAPTURE</td>
+                    <td>support the ability of capture image from camera</td> 	
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_AWBCHECKMODE</td>
+                    <td>auto white balance: check mode vs 'once' mode</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_UVC</td>
+                    <td>uvc camera</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_WBGAIN</td>
+                    <td>white balance gain mode or temp tint mode</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_MULTICAST</td>
+                    <td>RTSP/RTP multicast</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_AF</td>
+                    <td>support auto focus</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_SD</td>
+                    <td>support sd card</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_WBROI</td>
+                    <td>white balance: 0:manual;1:global auto;2:roi</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_STA_SUPPORT</td>
+                    <td>wifi camera has sta mode, app should have sta ssid & password function</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_RTP_OVER_RTSP</td>
+                    <td>rtp over rtsp</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_HZ_AUTOEXPO</td>
+                    <td>enable auto exposure when 50/60 hz</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_AFDM</td>
+                    <td>a way of auto focus</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_EFL</td>
+                    <td>Support camera lens autofocus</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_FLAG_CAPTURERAW</td>
+                    <td>get raw data</td>
+                </tr>
+                <tr>
+                    <td width="8%" rowspan="4" id="TOUPNAM_STATE">state</td>
+                    <td colspan="2">STATE</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_STATE_INITING</td>
+                    <td>initialization</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_STATE_NORMAL</td>
+                    <td>normal</td>
+                </tr>
+                <tr>
+                    <td>TOUPNAM_STATE_UNREACHABLE</td>
+                    <td>unable to connect to the network</td>
+                </tr>
+                <tr>
+                    <td width="8%">url</td>
+                    <td colspan="2">network address, for example rtsp://xxxx/yyyy</td>
+                </tr>
+                <tr>
+                    <td width="8%">addr</td>
+                    <td colspan="2">ip address</td>
+                </tr>
+                <tr>
+                    <td width="8%">version</td>
+                    <td colspan="2">camera version</td>
+                </tr>
+                <tr>
+                    <td width="8%">sn</td>
+                    <td colspan="2">camera sn</td>
+                </tr>
+                <tr>
+                    <td width="8%">id</td>
+                    <td colspan="2">camera ID</td>
+                </tr></table>
+        </div>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Open<br/>Toupnam_Open_ByIndex</font></h2>
+        <p><strong>Return value: </strong>camera handle. Return NULL when open failure</p>
+        <p><strong>Parameters: </strong><a href="#Toupnam_Enum">camId</a>: Camera ID, obtained by Toupnam_Enum enumeration</p>
+        <p><strong>Remarks: </strong>Open camera</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Close</font></h2>
+        <p><strong>Return value: </strong>NA</p>
+        <p><strong>Parameters: </strong>HToupnam h: camera handle</p>
+        <p><strong>Remarks: </strong>Close camera, please do not use it again after the handle is closed.</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF"><a id="pullimageptr">Toupnam_PullImagePtr</a></font></h2>
+        <p><strong>Return value: </strong><a>HRESULT</a> type means success or failure</p>
+        <p><strong>Parameters:</strong></p>
+        <blockquote>
+        <p>HToupnam h: camera handle</p>
+        <p><a">ToupnamImagePtr</a>* ptrImage: Frame buffer</p></blockquote>
+        <p><strong>Remarks:</strong> Use the <a>ImagePtr</a> mode to fetch frame buffer.</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF"><a id="pushimageptr">Toupnam_PushImagePtr</a></font></h2>
+        <p><strong>Return value: </strong><a>HRESULT</a> type means success or failure</p>
+        <p><strong>Parameters:</strong></p>
+        <blockquote>
+        <p>HToupnam h: camera handle</p>
+        <p>unsigned ptrId: Frame buffer ID</p></blockquote>
+        <p><strong>Remarks:</strong> After a frame buffer has been used, it must be returned to the SDK for reuse. Please note the following:</p>
+            <blockquote>
+            <p>(a) The frame buffer must only be returned back after it is no longer in use. Any access after returning it is unsafe, as the SDK may have already reused the buffer and overwritten the memory with new data.</p>
+            <p>(b) If a frame buffer is not returned, the pool of available buffers will gradually decrease.</p>
+            <p>(c) Each frame buffer obtained via Pull (identified by its ID) may be returned only once; duplicate returns are not allowed.</p>
+            <p>(d) The return order <strong>does not need to match</strong> the Pull order; buffers may be <strong>returned out of order</strong>.</p>
+            <p>(e) Frame buffers that have not been returned remain valid after Toupnam_Stop. Frame buffers that have not been returned become invalid immediately after Toupnam_Close.</p>
+            </blockquote>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_PullImage</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure, when there is no image available for retrieval, return the value of E_PENDING</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>HToupnam h: camera handle</p>
+            <p>pImageData: data buffer. The application must ensure that the buffer is large enough to accommodate image data</p>
+            <p>bits: The number of color bits in the image supports 24, 32, 48, 8, 16, and 64, representing RGB24 respectively, RGB32, RGB48, MONO8, MONO16, RGB64 image</p>
+            <p>pnWidth, pnHeight: Output parameters, width and height of the image</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>NA</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_StartPullModeWithCallback</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>HToupnam h: camera handle</p>
+            <p>void* pCallbackContext: callback</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>NA</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Stop</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong>HToupnam h: camera handle</p>
+        <p><strong>Remarks: </strong>Stop camera</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Pause</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong>HToupnam h: camera handle</p>
+        <p><strong>Remarks: </strong>Pause or resume the stream</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Capture<br/>Toupnam_Capture_ById</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>HToupnam h: camera handle</p>
+            <p>camId: camera id</p>
+            <p>pstrFileName: file name</p>
+            <p>pCaptureCallback: callback</p>
+            <p>pCallbackCtx: context</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>capture image, compare this to image extracted from video</p>
+        <blockquote>
+            <p>pstrFileName: NULL->capture image and then return by callback</p>
+            <p>“raw”->capture raw image and then return by callback</p>
+            <p>“abc.jpg”->capture image and then save it in the camera sd card with filename 'abc.jpg'</p>
+            <p>“abc.raw”->capture raw image and then save it in the camera sd card with filename 'abc.raw'</p>
+            <p>“thumbnail”->capture the thumbnail image and then return by callback</p>
+            <p>“*”->capture image and then save it in the camera sd card with auto generated file name</p>
+            <p>“*.raw”->capture raw image and then save it in the camera sd card with auto generated file name</p>
+        </blockquote>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_get_Size_ById</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>camId: camera id</p>
+            <p>res: camera resolution</p>
+            <p>pWidth, pHeight: width/height</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>NA</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_get_Device</font></h2>
+        <p><strong>Return value: </strong>ToupnamDevice represents information about camera</p>
+        <p><strong>Parameters: </strong>HToupnam h: camera handle</p>
+        <p><strong>Remarks: </strong>get information about camera</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_get_Size<br/>Toupnam_get_CapSize</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>HToupnam h: camera handle</p>
+            <p>pWidth, pHeight: the width and height of the current resolution</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>obtain the current resolution or recording resolution</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_get_FourCC</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>HToupnam h: camera handle</p>
+            <p>unsigned* pFourCC: Four-Character Codes, four character code</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>see <a href="http://en.wikipedia.org/wiki/FourCC" target="_blank">http://en.wikipedia.org/wiki/FourCC</a>, <a href="http://www.fourcc.org" target="_blank">http://www.fourcc.org</a></p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_Record</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>HToupnam h: camera handle</p>
+            <p>const char* fullpathname: absolute address for recording and saving files</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>Stop recording when fullpathname == NULL, supported file formats: *.asf, *.mp4, *.mkv</p>
+    </li></ul>
+    <ul><li><h2><a id="Para"><font color="#0000FF">Toupnam_put_Para<br/>Toupnam_get_Para</font></a></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>HToupnam h: camera handle</p>
+            <p>unsigned para: parameter type, see<a href="#TOUPNAM_PARA">TOUPNAM_PARA_xxx</a></p>
+            <p>value: put/get value</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>NA</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_put_Para_ById<br/>Toupnam_put_Para_ById</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>HToupnam h: camera handle</p>
+            <p>unsigned para: parameter type, see<a href="#TOUPNAM_PARA">TOUPNAM_PARA_xxx</a></p>
+            <p>value: put/get value</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>set parameters through camera id, different from<a href="#Para">Toupnam_put_Para, Toupnam_get_Para</a></p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_put_Wifi</font></h2>
+        <p><strong>Return value: </strong>HRESULT type means success or failure</p>
+        <p><strong>Parameters: </strong></p>
+        <blockquote>
+            <p>const char* camId: camera id</p>
+            <p>ToupnamWifi wifi: wifi ssid & password</p>
+        </blockquote>
+        <p><strong>Remarks: </strong>set WiFi</p>
+    </li></ul>
+    <ul><li><h2><font color="#0000FF">Toupnam_add_Ip<br/>Toupnam_del_Ip</font></h2>
+        <p><strong>Return value: </strong>NA</p>
+        <p><strong>Parameters: </strong>const char** arr: ip buffer</p>
+        <p><strong>Remarks: </strong>used for multicast communication mode, it can communicate with cameras with specified IP addresses, but not for broadcast communication mode</p>
+        <p>The code snippet shows as below:<br/></p>
+        <table width="100%" border="0" bgcolor="#B0D0B0"><tr><td><pre>
+char* arr[] = {
+    "1.2.3.4",
+    "1.2.3.5",
+    ...,
+    NULL
+};
+Toupnam_add_Ip(arr);</pre></td></tr></table></li></ul>
+</body>
+</html>

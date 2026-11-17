@@ -1,0 +1,21 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.magusview.android",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 44,
+      "versionName": "0.44-diagnostics-menu",
+      "outputFile": "app-release.apk"
+    }
+  ],
+  "elementType": "File",
+  "minSdkVersionForDexing": 30
+}
